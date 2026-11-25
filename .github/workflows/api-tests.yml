@@ -1,0 +1,90 @@
+name: monday-api-tests
+
+on:
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: '0 6 * * *' # corrida completa cada noche
+  workflow_dispatch:
+
+jobs:
+  # Calidad estática + pruebas del propio marco (sin token, sin gastar el límite de la API).
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run format:check
+      - run: npm run typecheck
+      - run: npm run test:unit
+
+  # Suite completa contra el servidor mock: valida hooks, logger y reportes sin usar monday.com.
+  mock:
+    needs: quality
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - name: Levantar el mock y ejecutar la suite
+        run: |
+          node mock/server.js &
+          sleep 2
+          npm run test:mock
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: mock-reports
+          path: |
+            reports/
+            logs/
+
+  smoke:
+    if: github.event_name == 'pull_request'
+    needs: quality
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run test:smoke
+        env:
+          TEST_ENV: qa
+          API_TOKEN: ${{ secrets.MONDAY_TOKEN }}
+
+  full:
+    if: github.event_name != 'pull_request'
+    needs: quality
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run test:api
+        env:
+          TEST_ENV: qa
+          API_TOKEN: ${{ secrets.MONDAY_TOKEN }}
+          # Ajusta según los permisos de la cuenta (ver docs/01, sección Configuración)
+          CAP_PRIVATE_BOARDS: 'true'
+          CAP_UPDATE_BOARD: 'true'
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-reports
+          path: |
+            reports/
+            logs/

@@ -1,0 +1,8 @@
+id,title,name,kind,description,expected,errorCode,requires,tags
+DS-KIND-001,board público sin descripción,AT - kind public sin desc {{ts}},public,,success,,,happy-path
+DS-KIND-002,board público con descripción corta,AT - kind public con desc {{ts}},public,AT - descripción automatizada,success,,,happy-path
+DS-KIND-003,board público con descripción en unicode,AT - kind public unicode {{ts}},public,"AT - Descripción con tildes, ñ y emoji 📌",success,,,unicode
+DS-KIND-004,board público con descripción larga (2000 caracteres),AT - kind public desc larga {{ts}},public,AT - {{repeat:d:1995}},either,,,boundary|exploratory
+DS-KIND-005,board privado sin descripción,AT - kind private sin desc {{ts}},private,,success,,privateBoards,account-dependent
+DS-KIND-006,board privado con descripción,AT - kind private con desc {{ts}},private,AT - descripción privada,success,,privateBoards,account-dependent
+DS-KIND-007,board de tipo share (depende del plan de la cuenta),AT - kind share {{ts}},share,,either,,,account-dependent|exploratory

@@ -1,0 +1,131 @@
+[
+  {
+    "id": "DS-NAME-001",
+    "title": "nombre con tildes y eñe (español)",
+    "name": "AT - Planeación del año ñandú {{ts}}",
+    "kind": "public",
+    "expected": "success",
+    "tags": ["unicode", "happy-path"]
+  },
+  {
+    "id": "DS-NAME-002",
+    "title": "nombre con emojis",
+    "name": "AT - Sprint 🚀✅ {{ts}}",
+    "kind": "public",
+    "expected": "success",
+    "tags": ["unicode", "emoji"]
+  },
+  {
+    "id": "DS-NAME-003",
+    "title": "nombre con caracteres especiales de puntuación",
+    "name": "AT - Q4 #1 (50% & más) *final* {{ts}}",
+    "kind": "public",
+    "expected": "success",
+    "tags": ["special-chars"]
+  },
+  {
+    "id": "DS-NAME-004",
+    "title": "nombre con comillas simples y dobles",
+    "name": "AT - O'Brien \"beta\" {{ts}}",
+    "kind": "public",
+    "expected": "success",
+    "tags": ["special-chars", "quotes"]
+  },
+  {
+    "id": "DS-NAME-005",
+    "title": "nombre con etiquetas HTML (la API puede sanear el texto)",
+    "name": "AT - <b>negrita</b> <script>x</script> {{ts}}",
+    "kind": "public",
+    "expected": "success",
+    "tags": ["security", "may-normalize"]
+  },
+  {
+    "id": "DS-NAME-006",
+    "title": "nombre con texto tipo inyección SQL (debe tratarse como texto)",
+    "name": "AT - '; DROP TABLE boards;-- {{ts}}",
+    "kind": "public",
+    "expected": "success",
+    "tags": ["security", "may-normalize"]
+  },
+  {
+    "id": "DS-NAME-007",
+    "title": "nombre con espacios al inicio y al final (puede recortarse)",
+    "name": "   AT - con espacios {{ts}}   ",
+    "kind": "public",
+    "expected": "success",
+    "tags": ["whitespace", "may-normalize"]
+  },
+  {
+    "id": "DS-NAME-008",
+    "title": "nombre con salto de línea (comportamiento no documentado)",
+    "name": "AT - línea1\nlínea2 {{ts}}",
+    "kind": "public",
+    "expected": "either",
+    "tags": ["whitespace", "exploratory", "may-normalize"]
+  },
+  {
+    "id": "DS-NAME-009",
+    "title": "nombre formado solo por espacios (comportamiento no documentado)",
+    "name": "     ",
+    "kind": "public",
+    "expected": "either",
+    "tags": ["whitespace", "exploratory"]
+  },
+  {
+    "id": "DS-NAME-010",
+    "title": "nombre solo numérico",
+    "name": "{{ts}}",
+    "kind": "public",
+    "expected": "either",
+    "tags": ["exploratory"]
+  },
+  {
+    "id": "DS-NAME-011",
+    "title": "límite: nombre de exactamente 255 caracteres",
+    "name": "AT - {{repeat:B:250}}",
+    "kind": "public",
+    "expected": "either",
+    "tags": ["boundary", "exploratory"]
+  },
+  {
+    "id": "DS-NAME-012",
+    "title": "límite: nombre de 256 caracteres (uno sobre el máximo)",
+    "name": "AT - {{repeat:B:251}}",
+    "kind": "public",
+    "expected": "either",
+    "tags": ["boundary", "exploratory"]
+  },
+  {
+    "id": "DS-NAME-013",
+    "title": "nombre extremadamente largo (1000 caracteres) es rechazado",
+    "name": "AT - {{repeat:Z:995}}",
+    "kind": "public",
+    "expected": "rejected",
+    "errorCode": "CreateBoardException",
+    "tags": ["boundary", "negative"]
+  },
+  {
+    "id": "DS-NAME-014",
+    "title": "nombre con alfabetos no latinos (cirílico, árabe, chino)",
+    "name": "AT - Проект مشروع 项目 {{ts}}",
+    "kind": "public",
+    "expected": "success",
+    "tags": ["unicode", "non-latin"]
+  },
+  {
+    "id": "DS-NAME-015",
+    "title": "nombre con barras invertidas y secuencias de escape",
+    "name": "AT - C:\\temp\\nuevo \\n \\u0041 {{ts}}",
+    "kind": "public",
+    "expected": "success",
+    "tags": ["special-chars", "escape", "may-normalize"]
+  },
+  {
+    "id": "DS-NAME-016",
+    "title": "nombre con tabulador (comportamiento no documentado)",
+    "name": "AT - col1\tcol2 {{ts}}",
+    "kind": "public",
+    "expected": "either",
+    "tags": ["whitespace", "exploratory", "may-normalize"]
+  }
+]

@@ -1,0 +1,14 @@
+{
+  "name": "mock",
+  "description": "Servidor falso local (mock/server.js) para validar el marco sin gastar el límite de la API",
+  "baseUrl": "http://localhost:4000",
+  "apiVersion": "2025-04",
+  "timeoutMs": 5000,
+  "delayMs": 0,
+  "responseTimeLimitMs": 500,
+  "logLevel": "debug",
+  "capabilities": {
+    "privateBoards": true,
+    "updateBoard": true
+  }
+}

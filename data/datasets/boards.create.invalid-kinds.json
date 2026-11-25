@@ -1,0 +1,42 @@
+[
+  {
+    "id": "DS-INVKIND-001",
+    "title": "board_kind con un valor que no existe en el enum",
+    "name": "AT - invalid kind secret {{ts}}",
+    "kind": "secret",
+    "expected": "rejected",
+    "tags": ["negative", "enum"]
+  },
+  {
+    "id": "DS-INVKIND-002",
+    "title": "board_kind en mayúsculas (los enums distinguen mayúsculas)",
+    "name": "AT - invalid kind PUBLIC {{ts}}",
+    "kind": "PUBLIC",
+    "expected": "rejected",
+    "tags": ["negative", "enum", "case-sensitivity"]
+  },
+  {
+    "id": "DS-INVKIND-003",
+    "title": "board_kind vacío",
+    "name": "AT - invalid kind empty {{ts}}",
+    "kind": "",
+    "expected": "rejected",
+    "tags": ["negative", "enum", "empty"]
+  },
+  {
+    "id": "DS-INVKIND-004",
+    "title": "board_kind con espacio al final",
+    "name": "AT - invalid kind trailing space {{ts}}",
+    "kind": "public ",
+    "expected": "rejected",
+    "tags": ["negative", "enum", "whitespace"]
+  },
+  {
+    "id": "DS-INVKIND-005",
+    "title": "board_kind numérico",
+    "name": "AT - invalid kind number {{ts}}",
+    "kind": "1",
+    "expected": "rejected",
+    "tags": ["negative", "enum", "type-confusion"]
+  }
+]

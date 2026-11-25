@@ -1,0 +1,14 @@
+{
+  "name": "qa",
+  "description": "API real de monday.com (cuenta de pruebas del equipo)",
+  "baseUrl": "https://api.monday.com/v2",
+  "apiVersion": "2025-04",
+  "timeoutMs": 20000,
+  "delayMs": 4000,
+  "responseTimeLimitMs": 500,
+  "logLevel": "debug",
+  "capabilities": {
+    "privateBoards": true,
+    "updateBoard": true
+  }
+}

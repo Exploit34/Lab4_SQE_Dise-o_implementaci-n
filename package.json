@@ -1,0 +1,66 @@
+{
+  "name": "monday-api-automation",
+  "version": "2.0.0",
+  "description": "Marco de automatización de pruebas API (GraphQL de monday.com) en capas: Jest, Axios, Ajv, Winston",
+  "private": true,
+  "scripts": {
+    "test": "jest --runInBand",
+    "test:unit": "jest --selectProjects unit",
+    "test:api": "jest --selectProjects api --runInBand",
+    "test:smoke": "jest tests/boards/auth.test.ts --runInBand",
+    "test:create": "jest tests/boards/create.test.ts --runInBand",
+    "test:read": "jest tests/boards/read.test.ts --runInBand",
+    "test:update": "jest tests/boards/update-archive.test.ts --runInBand",
+    "test:e2e": "jest tests/boards/e2e.test.ts --runInBand",
+    "test:dataset": "jest tests/boards/create-dataset.test.ts --runInBand",
+    "test:mock": "cross-env TEST_ENV=mock API_TOKEN=mock-token BASE_URL=http://localhost:4000 DELAY_MS=0 jest --runInBand",
+    "report:logs": "ts-node scripts/generate-log-report.ts",
+    "datasets:validate": "ts-node scripts/validate-datasets.ts",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "validate": "npm run lint && npm run format:check && npm run typecheck && npm run test:unit",
+    "mock": "node mock/server.js",
+    "poc:me": "ts-node poc/me.ts",
+    "poc:ajv": "ts-node poc/ajv.ts",
+    "poc:invalid-token": "ts-node poc/invalid-token.ts",
+    "prepare": "husky"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.5",
+    "@types/jest": "^29.5.14",
+    "@types/node": "^20.19.43",
+    "ajv": "^8.20.0",
+    "axios": "^1.21.1",
+    "cross-env": "^10.1.0",
+    "dotenv": "^16.6.1",
+    "eslint": "^9.39.5",
+    "eslint-config-prettier": "^10.1.8",
+    "husky": "^9.1.7",
+    "jest": "^29.7.0",
+    "jest-html-reporters": "^3.1.7",
+    "jest-junit": "^17.0.0",
+    "lint-staged": "^17.6.2",
+    "prettier": "^3.10.1",
+    "ts-jest": "^29.4.15",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.73.0",
+    "winston": "^3.19.0",
+    "winston-transport": "^4.9.0"
+  },
+  "lint-staged": {
+    "*.{ts,mjs,js}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,yml,csv}": [
+      "prettier --write"
+    ]
+  }
+}
